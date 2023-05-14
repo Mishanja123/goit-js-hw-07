@@ -33,7 +33,15 @@ function onImageClick(event) {
 
     const instance = basicLightbox.create(`
     <img src="${event.target.dataset.source}" width="800" height="600">
-`)
+`, {
+	onShow: (instance) => {},
+	/*
+	 * Function that gets executed before the lightbox closes.
+	 * Returning false will prevent the lightbox from closing.
+	 */
+	onClose: (instance) => {}
+})
+    
     instance.show();
     
     //закрытие 
@@ -47,4 +55,6 @@ function onImageClick(event) {
 function blockStandartAction(event) {
     event.preventDefault();
 }
+
+
 
