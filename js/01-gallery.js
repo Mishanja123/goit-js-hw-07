@@ -3,9 +3,6 @@ import { galleryItems } from './gallery-items.js';
 
 const list = document.querySelector('.gallery')
 
-// const elements = galleryItems.map(({preview, original, description}) => `<li class="gallery__item"><a class="gallery__link" href="${original}"><img class="gallery__image" src="${preview}" data-source=${original}  alt="${description}" width="250"></a></li>`).join('');
-
-
 // создал шаблон разметки для галлереи in function
 function createGalleryMarkup(items) {
     return items
@@ -22,39 +19,54 @@ list.insertAdjacentHTML("beforeend", addGalleryMarkup)
 list.addEventListener("click", onImageClick)
 
 //функции 
-function onImageClick(event) {
+function onImageClick({target}) {
     //запретил браузеру открывать картинку как ссылку 
     blockStandartAction(event)
 
     //проверка картинка или нет 
-    if (event.target.nodeName !== "IMG") {
+    if (target.nodeName !== "IMG") {
         return
     }
 
     const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" width="800" height="600">
+    <img src="${target.dataset.source}" width="800" height="600">
 `, {
 	onShow: (instance) => {},
-	/*
-	 * Function that gets executed before the lightbox closes.
-	 * Returning false will prevent the lightbox from closing.
-	 */
+	
 	onClose: (instance) => {}
 })
     
     instance.show();
     
     //закрытие 
-    list.addEventListener("keydown", (event) => {
+    window.addEventListener("keydown", (event) => {
         if (event.code === "Escape") {
             instance.close();
         }
     })
 }
 
+// function closeByEsc(event) {
+//  if (event.code === "Escape") {
+//             instance.close();
+//          }
+// }
+
 function blockStandartAction(event) {
     event.preventDefault();
 }
+
+
+// addListenerBtn.addEventListener("click", () => {
+//     list.addEventListener("click", onImageClick)
+// })
+// list.addEventListener("click", () => {
+//     list.removeEventListener("click", onImageClick)
+// })
+
+
+
+
 
 
 
